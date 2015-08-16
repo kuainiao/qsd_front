@@ -159,7 +159,7 @@
 		
 						<!-- list -->
         	<ul  >
-			<li ng-repeat="post in posts| filter : searchFilter">
+			<li ng-repeat="post in (filtedPosts = (posts| filter : searchFilter))">
                     		<div class="list " articleid="" timesort="">
 			<div class="listTitle">
 								<a href="" class="icon">{{post.doc_type}}</a>

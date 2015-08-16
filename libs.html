@@ -36,7 +36,7 @@
 <![endif]-->
 </head>
 
-<body style=""><iframe frameborder="0" style="display: none;"></iframe>
+<body style=""  ng-app="libsMod" ng-controller="libsCtrl" ng-cloak><iframe frameborder="0" style="display: none;"></iframe>
 <!--header-->
 <header class="indexHead">
 <div class="headerWrap">
@@ -48,7 +48,7 @@
             
             <div class="cake" style="width:168px;padding-top:20px;"><img style="width:128px;" src="http://7xkfm0.com1.z0.glb.clouddn.com/slogan.png?imageView2" alt="摄影穷三代"></div>
 
-                                <div class="loginArea">
+                               <div class="loginArea">
 
               		          <a href="register.html" class="rFloat" id="navBar_reg">注册</a>
                   <a class="rFloat" id="navBar_login">登录</a>
@@ -83,10 +83,10 @@
 <div class="navBar oHeight">
     <nav class="oHeight">
 		<a href="index.html" onclick="">首页</a>
-		<a href="news.html" onclick="" >资讯</a>
+		<a href="news.html" onclick="">资讯</a>
 		<a href="buy.html" onclick="" >剁手</a>
 		<a href="test.html" onclick="" >评测</a>
-		<a href="libs.html" onclick="" class="active">器材库</a>
+		<a href="libs.html" onclick=""  class="active">器材库</a>
         <a href="tools.html" onclick="">工具<span class="hot"><img src="img/new.png"></span></a>
         <div class="moreNav">
         <a href="#">更多</a>
@@ -106,20 +106,119 @@
 </div>
 </div>
 </header>
+<!-- section -->
 <section class="wrap">
 	<!-- leftWrap-->
 	<div class="leftWrap">
 				<!-- leftWrapTop -->
 		<div class="leftWrapTop">		
 
+<!-- screenPannel-->  			    
+<div class="screenPannel">
+
+    <!-- tab_nav-->
+            <ul class="tab_nav">
+
+                <li class="tab_li current_item">
+                <div class="nav-item">
+                <div class="nav-tip">大类：</div>
+                <input class="nav-input" type="text"  ng-model="top_type">
+                </div>
+                </li>
+                <li class="tab_li ">
+
+                <div class="nav-item">
+
+                <div class="nav-tip">小类：</div>
+                <input class="nav-input" type="text"  ng-model="type">
+                </div>
+                </li>
+                <li class="tab_li ">
+                <div class="nav-item">
+                <div class="nav-tip">品牌：</div>
+                <input class="nav-input" type="text"  ng-model="brand" >
+                </div>
+                </li>
+                <li class="tab_li ">
+                <div class="nav-item">
+                <div class="nav-tip">型号：</div>
+                <input class="nav-input" type="text"  ng-model="search" >
+                </div>
+                </li>
+                <button type="submit" class="btn_search icon-search" ng-click=searchClick()><!--[if lt IE 8]>Go<![endif]--></button>
+            </ul>
+            <!-- tab_nav end-->
+            <!-- more_screen--> 
+            <div class="more_screen">
+                <div class="tab_info"style="">
+                            <!-- tab_info-->
+                            <a href="" ng-repeat="top_type in top_types|filter :topFilter" ng-click=topClick(top_type)>{{top_type}}</a>
+                            <!-- tab_info end-->
+                </div>
+                <div class="tab_info" style="">
+                            <!-- tab_info-->  
+							<a href="" ng-repeat="type in types|filter :typeFilter" ng-click=typeClick(type)>{{type}}</a>
+                    <!-- tab_info end-->                </div>
+                <div class="tab_info" style="">
+                    <!-- tab_info-->       
+                            <a href="" ng-repeat="brand in brands|filter :brandFilter" ng-click=brandClick(brand)>{{brand}}</a>
+                    <!-- tab_info end-->                </div>
+
+            </div>
+            <!-- more_screen end-->
+</div>
+        <!-- screenPannel end-->
 			<div class="clear"></div>
 		</div>
 		<!-- leftWrapTop end-->
 		
-						<!-- list -->		                                        
-						
+						<!-- list -->
+        	<ul  >
+			<li ng-repeat="post in (filtedPosts = (posts| filter : {name:search,brand:brand,type:type,top_type:top_type}))">
+                    		<div class="list " articleid="" timesort="">
+			<div class="listTitle">
+								<a href="" class="icon">器材</a>
+								<h4 class="itemName">
+                    <!--<a onclick="" href="{{post.url}}" target="_blank" ng-click=updatePostClick(post) >-->
+					<a onclick="" href="" target="" ng-click=updatePostClick(post) >
+
+                        {{post.brand}}                      
+
+                        <span class="red">{{post.name}} </span>
+                        {{   post.type}}
+                    </a></h4>
+				<div class="clear"></div>
+			</div>
+            <a ng-click=updatePostClick(post) href="" target="" class="picLeft" title="">
+                <img ng-src="{{post.pic_file.url}}?imageView2/1/w/90/h/90" height="90px" width="90px" style="margin-top:0px" alt="{{post.name}}">
+            </a>
+			<div class="listRight">
+				<div class="lrInfo">{{post.short_info}}</div>
+				<div class="lrBot">
+										<div class="botPart" id="buybutton" >
+                        						<div class="buy" style="z-index: 2;" >
+                                                            <a href="＃" ng-click=updatePostClick(post) rel="nofollow" onclick="">看看参数<i>&gt;</i></a>
+                                                                                </div>
+                                                                                <a href="" class="mall" ng-click=typeClick(post.type)>{{post.type}}</a>
+                                                                                <a href="" class="mall" ng-click=topClick(post.top_type)>{{post.top_type}}</a>
+                                                                                <a href="" class="mall" ng-click=brandClick(post.brand)>{{post.brand}}</a>
+                        																				
+										</div>
+
+                                    
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+			</li>
+			</ul>		                                        
+                    		
+        		                                        
+        		                                        
+                		
         				<!-- list end -->
-		<p class="center" style="padding:30px 0;" >开发中~~</p>
+		<img src="img/loading.gif"  class="center" style="padding:30px 0;"  ng-if=loading==1 alt="加载更多">
+		<p class="center" style="padding:30px 0;" ng-if=loading==2 >你已走到穷三代尽头~</p>
 
 	</div>
 	<!-- leftWrap end-->
@@ -180,12 +279,26 @@
         
 		<!-- rightPanel-->
 		<!-- rightPanel end-->
-                
+
+				        
+<div class="rightPanel">
+
+<!-- /147592458/穷三代-首页-02-300*250 -->
+<!-- <div id="div-gpt-ad-1428487695712-0" style="height:250px; width:300px;">-->
+</div>
+        <!-- rightPanel end-->
+        
 		<!-- rightPanel-->
-		<div class="rightPanel"   >	
+		<!-- rightPanel end-->
+        <!-- rightPanel-->
+        <!-- rightPanel end-->
+        <!-- rightPanel-->
+        <!-- rightPanel end-->
 
-		</div>
-
+        <!-- rightPanel-->
+ <!-- rightPanel end-->
+        <!-- rightPanel-->
+                <!-- rightPanel end-->
   	</aside>
 	<!-- aside end -->
 	<div class="clear"></div>

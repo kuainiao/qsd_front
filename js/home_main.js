@@ -770,6 +770,35 @@ function showHidenNotice(c, b) {
         });
     }
 }
+function nav_input(b) {
+    SetNavInputCss(b);
+    $(b).mouseup(function() {
+        SetNavInputCss(b);
+    });
+    $(b).mouseout(function() {
+        if ($.trim($(this).val()) == "") {
+            $(this).removeClass("nav-input-focus");
+            $(this).prev().removeClass("nav-tip-focus");
+        }
+    });
+    $(b).mouseover(function() {
+        if (!$(this).hasClass("nav-input-focus")) {
+            $(this).addClass("nav-input-focus");
+            $(this).prev().addClass("nav-tip-focus");
+        }
+    });
+    $(".nav-tip").click(function() {
+        $(this).next().focus();
+    });
+}
+function SetNavInputCss(b) {
+    $(b).each(function() {
+        if ($.trim($(this).val()) != "") {
+            $(this).addClass("nav-input-focus");
+            $(this).prev().addClass("nav-tip-focus");
+        }
+    });
+}
 function login_reg_input(b) {
     SetInputCss(b);
     $(b).mouseup(function() {
@@ -1107,6 +1136,7 @@ $(function() {
     popUp("#sign_login a", "#pop-login", "");
     popUp(".upload_content img", ".large_img", "");
     login_reg_input(".form-input");
+    nav_input(".nav-input");
     slidingFunction();
     $(".goTotop").click(function() {
         $("html, body").animate({scrollTop: 0}, 150);

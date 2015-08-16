@@ -6150,6 +6150,47 @@ i.icon-logintanhao {
     outline: 0
 }
 
+.nav-item {
+    margin: 0px auto;
+    position: relative
+}
+
+.nav-input {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    width: 118px;
+    padding: 9px 10px;
+    border: 1px solid #dcdcdc;
+    -webkit-transition: border-color ease-in-out .15s;
+    transition: border-color ease-in-out .15s;
+    font-size: 12px
+}
+
+.nav-input-focus {
+    border-color: #5188a6;
+    outline: 0
+}
+
+.nav-tip {
+    position: absolute;
+    color: #999;
+    top: -26px;
+    left: 12px;
+    transition: all linear .2s;
+    background-color: #fff;
+    padding: 0 3px;
+    font-size: 10px
+}
+
+.nav-tip-focus {
+    top: -26px;
+    font-size: 10px;
+    color: #5188a6
+}
+
 .greyNotice {
     display: block;
     color: #999;
