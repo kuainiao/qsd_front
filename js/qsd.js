@@ -28,13 +28,15 @@
 	  $scope.hotPosts = [];
 
 
-	  $scope.gswap = false;
-	  $scope.bswap = false;
-	  $scope.cswap = false;
+	  $scope.gswap = {};
+	  $scope.bswap = {};
+	  $scope.cswap = {};
 	  $scope.updatePostGood = function(postParam) {
-		if (!$scope.gswap) {
+		if (!$scope.gswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
+		
+		
 	  	// 可以先查询出要修改的那条存储
 			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
 			query.get(postParam.objectId, {
@@ -44,7 +46,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.good=postParam.good+1
-					$scope.gswap = true;
+					$scope.gswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -56,7 +58,7 @@
 	  }
 
 	  $scope.updatePostBad = function(postParam) {
-		if (!$scope.bswap) {
+		if (!$scope.bswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -69,7 +71,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.bad=postParam.bad+1;
-					$scope.bswap = true;
+					$scope.bswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -81,7 +83,7 @@
 	  }
 
 	  $scope.updatePostClick = function(postParam) {
-		if (!$scope.cswap) {
+		if (!$scope.cswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -92,7 +94,8 @@
       		// 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
       		post.increment('click');
       		post.save();
-			$scope.cswap = true;
+			
+			$scope.cswap[postParam.objectId] = true;
     			},
     			error: function(object, error) {
       		// 失败了.
@@ -235,13 +238,15 @@
 	postsMod.controller("postsCtrl",['$http', '$scope', '$filter',function($http, $scope, $filter){
 	  $scope.hotPosts = [];
 
-	  $scope.gswap = false;
-	  $scope.bswap = false;
-	  $scope.cswap = false;
+	  $scope.gswap = {};
+	  $scope.bswap = {};
+	  $scope.cswap = {};
 	  $scope.updatePostGood = function(postParam) {
-		if (!$scope.gswap) {
+		if (!$scope.gswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
+		
+		
 	  	// 可以先查询出要修改的那条存储
 			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
 			query.get(postParam.objectId, {
@@ -251,7 +256,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.good=postParam.good+1
-					$scope.gswap = true;
+					$scope.gswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -263,7 +268,7 @@
 	  }
 
 	  $scope.updatePostBad = function(postParam) {
-		if (!$scope.bswap) {
+		if (!$scope.bswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -276,7 +281,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.bad=postParam.bad+1;
-					$scope.bswap = true;
+					$scope.bswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -288,7 +293,7 @@
 	  }
 
 	  $scope.updatePostClick = function(postParam) {
-		if (!$scope.cswap) {
+		if (!$scope.cswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -299,7 +304,8 @@
       		// 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
       		post.increment('click');
       		post.save();
-			$scope.cswap = true;
+			
+			$scope.cswap[postParam.objectId] = true;
     			},
     			error: function(object, error) {
       		// 失败了.
@@ -445,13 +451,15 @@
 	  $scope.hotPosts = [];
 
 
-	  $scope.gswap = false;
-	  $scope.bswap = false;
-	  $scope.cswap = false;
+	  $scope.gswap = {};
+	  $scope.bswap = {};
+	  $scope.cswap = {};
 	  $scope.updatePostGood = function(postParam) {
-		if (!$scope.gswap) {
+		if (!$scope.gswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
+		
+		
 	  	// 可以先查询出要修改的那条存储
 			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
 			query.get(postParam.objectId, {
@@ -461,7 +469,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.good=postParam.good+1
-					$scope.gswap = true;
+					$scope.gswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -473,7 +481,7 @@
 	  }
 
 	  $scope.updatePostBad = function(postParam) {
-		if (!$scope.bswap) {
+		if (!$scope.bswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -486,7 +494,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.bad=postParam.bad+1;
-					$scope.bswap = true;
+					$scope.bswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -498,7 +506,7 @@
 	  }
 
 	  $scope.updatePostClick = function(postParam) {
-		if (!$scope.cswap) {
+		if (!$scope.cswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -509,7 +517,8 @@
       		// 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
       		post.increment('click');
       		post.save();
-			$scope.cswap = true;
+			
+			$scope.cswap[postParam.objectId] = true;
     			},
     			error: function(object, error) {
       		// 失败了.
@@ -518,6 +527,7 @@
 	  	});
 		}
 	  }
+	  
 	var readNum = 50;                              //读取的页数
 	var showNum = 10;                               //展现的页数
 	$scope.loading = 0;						//判断是否正在读取内容的变量
@@ -649,13 +659,15 @@
 	
 	newsMod.controller("newsCtrl",['$http', '$scope', '$filter',function($http, $scope, $filter){
 
-	  $scope.gswap = false;
-	  $scope.bswap = false;
-	  $scope.cswap = false;
+	  $scope.gswap = {};
+	  $scope.bswap = {};
+	  $scope.cswap = {};
 	  $scope.updatePostGood = function(postParam) {
-		if (!$scope.gswap) {
+		if (!$scope.gswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
+		
+		
 	  	// 可以先查询出要修改的那条存储
 			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
 			query.get(postParam.objectId, {
@@ -665,7 +677,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.good=postParam.good+1
-					$scope.gswap = true;
+					$scope.gswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -677,7 +689,7 @@
 	  }
 
 	  $scope.updatePostBad = function(postParam) {
-		if (!$scope.bswap) {
+		if (!$scope.bswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -690,7 +702,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.bad=postParam.bad+1;
-					$scope.bswap = true;
+					$scope.bswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -702,7 +714,7 @@
 	  }
 
 	  $scope.updatePostClick = function(postParam) {
-		if (!$scope.cswap) {
+		if (!$scope.cswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -713,7 +725,8 @@
       		// 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
       		post.increment('click');
       		post.save();
-			$scope.cswap = true;
+			
+			$scope.cswap[postParam.objectId] = true;
     			},
     			error: function(object, error) {
       		// 失败了.
@@ -903,13 +916,15 @@
 	  	});
 	  }
 
-	  $scope.gswap = false;
-	  $scope.bswap = false;
-	  $scope.cswap = false;
+	  $scope.gswap = {};
+	  $scope.bswap = {};
+	  $scope.cswap = {};
 	  $scope.updatePostGood = function(postParam) {
-		if (!$scope.gswap) {
+		if (!$scope.gswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
+		
+		
 	  	// 可以先查询出要修改的那条存储
 			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
 			query.get(postParam.objectId, {
@@ -919,7 +934,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.good=postParam.good+1
-					$scope.gswap = true;
+					$scope.gswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -931,7 +946,7 @@
 	  }
 
 	  $scope.updatePostBad = function(postParam) {
-		if (!$scope.bswap) {
+		if (!$scope.bswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -944,8 +959,31 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.bad=postParam.bad+1;
-					$scope.bswap = true;
+					$scope.bswap[postParam.objectId] = true;
 	  			})
+    			},
+    			error: function(object, error) {
+      		// 失败了.
+      		console.log(object);
+    			}
+	  	});
+		}
+	  }
+
+	  $scope.updatePostClick = function(postParam) {
+		if (!$scope.cswap[postParam.objectId]) {
+	  	var Post = AV.Object.extend("Post");
+	  	var query = new AV.Query(Post);
+	  	// 可以先查询出要修改的那条存储
+
+			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
+			query.get(postParam.objectId, {
+    			success: function(post) {
+      		// 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
+      		post.increment('click');
+      		post.save();
+			
+			$scope.cswap[postParam.objectId] = true;
     			},
     			error: function(object, error) {
       		// 失败了.
@@ -974,24 +1012,6 @@
 	  	})
 	  }
 	  
-	  $scope.updatePostClick = function(postParam) {
-	  	var Post = AV.Object.extend("Post");
-	  	var query = new AV.Query(Post);
-	  	// 可以先查询出要修改的那条存储
-
-			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
-			query.get(postParam.objectId, {
-    			success: function(post) {
-      		// 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
-      		post.increment('click');
-      		post.save();
-    			},
-    			error: function(object, error) {
-      		// 失败了.
-      		console.log(object);
-    			}
-	  	});
-	  }
 
 	  
 	if ($location.search().id) {  
@@ -1033,10 +1053,15 @@
 	$scope.posts = [];
 	$scope.readPosts = [];
 
+	  $scope.gswap = {};
+	  $scope.bswap = {};
+	  $scope.cswap = {};
 	  $scope.updatePostGood = function(postParam) {
-		if (!$scope.gswap) {
+		if (!$scope.gswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
+		
+		
 	  	// 可以先查询出要修改的那条存储
 			// 这个 id 是要修改条目的 objectId，你在生成这个实例并成功保存时可以获取到，请看前面的文档
 			query.get(postParam.objectId, {
@@ -1046,7 +1071,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.good=postParam.good+1
-					$scope.gswap = true;
+					$scope.gswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -1058,7 +1083,7 @@
 	  }
 
 	  $scope.updatePostBad = function(postParam) {
-		if (!$scope.bswap) {
+		if (!$scope.bswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -1071,7 +1096,7 @@
 				post.save();
 				$scope.$apply(function(){
 					postParam.bad=postParam.bad+1;
-					$scope.bswap = true;
+					$scope.bswap[postParam.objectId] = true;
 	  			})
     			},
     			error: function(object, error) {
@@ -1083,7 +1108,7 @@
 	  }
 
 	  $scope.updatePostClick = function(postParam) {
-		if (!$scope.cswap) {
+		if (!$scope.cswap[postParam.objectId]) {
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 	  	// 可以先查询出要修改的那条存储
@@ -1094,7 +1119,8 @@
       		// 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
       		post.increment('click');
       		post.save();
-			$scope.cswap = true;
+			
+			$scope.cswap[postParam.objectId] = true;
     			},
     			error: function(object, error) {
       		// 失败了.
