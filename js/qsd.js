@@ -1306,7 +1306,7 @@
 		if (otop_type)
 		query.equalTo("top_type", otop_type);
 		if (osearch)
-
+	
 		query.matches("name", "(?i)"+osearch);
 		query.descending("score");
 		query.skip($scope.readPosts.length);
@@ -1341,6 +1341,101 @@
     //$scope.getPosts();
     //$scope.gethotPosts();
 }]);
+
+	var qcMod = angular.module("qcMod",[]);
+	qcMod.run(function() {
+	    AV.initialize("1ootsw3y4smje21veqtkn2w6xtk1al2hdn6xs05vvzp0ed4k", "p0ir4kljnq05g4jm7udb7u2lrk45cy1c5hawkufgtkcck00p");
+	});
+	qcMod.directive("comment", function() {
+		return {
+			restrict: 'A',
+			link: function(scope){
+				// get the variable from controller
+				var article_id = scope.id;
+				
+				var data_thread_key = 'article_' + article_id;
+				var data_url = 'http://qiongsandai.com/qicai.html?id=' + article_id;
+				var data_title = article_id;
+				// dynamic load the duoshuo comment box
+				var el = document.createElement('div');//该div不需要设置class="ds-thread"
+				el.setAttribute('data-thread-key', data_thread_key);//必选参数
+				el.setAttribute('data-url', data_url);//必选参数
+				el.setAttribute('data-title', data_title);//可选参数
+				DUOSHUO.EmbedThread(el);
+				jQuery('#comment-box').append(el);
+			}
+		};
+	});
+	
+	qcMod.config(['$locationProvider', function($locationProvider) {  
+		$locationProvider.html5Mode(true);  
+	}]); 
+	qcMod.controller("qcCtrl",['$http', '$scope', '$location', function($http, $scope, $location){
+	$scope.infokey=[];
+	  $scope.getPost = function(objectId) {
+	  	var Post = AV.Object.extend("Lib");
+	  	var query = new AV.Query(Post);
+	  	query.get(objectId, {
+    			success: function(post) {
+				// 成功，回调中可以取得这个 Post 对象的一个实例
+				$scope.$apply(function(){
+	  				$scope.post = JSON.parse(JSON.stringify(post));
+					$scope.gethotPosts($scope.post);
+					for (var key in $scope.post.infos) {
+						$scope.infokey.push(key);
+					}
+	  			})
+    			},
+    			error: function(object, error) {
+    			}
+	  	});
+	  }
+	  
+	  $scope.hotPosts = [];
+
+	  $scope.gethotPosts = function(post) {
+	  	var Post = AV.Object.extend("Post");
+	  	var query = new AV.Query(Post);
+		var ss= new Array(); //定义一数组 
+		var spattern = post.brand + "&&";
+		ss=post.name.split(" "); //字符分割
+		for (i=0;i<ss.length ;i++ ) {
+			spattern+="|(?i)"+ss[i];
+		}
+		query.matches("title", spattern);
+	  	query.descending("click");
+	  	query.limit(6);
+	  	query.find({
+	  		success:function (results){
+	  			$scope.$apply(function(){
+	  				$scope.hotPosts = JSON.parse(JSON.stringify(results));
+	  			})
+	  		}
+	  	})
+	  }
+	  
+
+	  
+	if ($location.search().id) {  
+		$scope.id = $location.search().id;  
+	}
+	/*
+	s=window.location.search.substr(1);
+	params=s.split('&');
+	var paramMap = new Map();
+	for (i in params){
+		param=params[i].split('=');
+		paramMap.set(param[0],param[1]);
+	}
+	if (paramMap.get('id')==null || paramMap.get('id').length == 0)
+		window.location.href='err.html';
+		
+	*/
+	if ($scope.id==null || $scope.id.length == 0)
+		window.location.href='err.html';
+	$scope.getPost($scope.id);
+	}
+	]);
 })();
 
 

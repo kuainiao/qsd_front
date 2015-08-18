@@ -180,12 +180,12 @@
 								<a href="" class="icon">器材</a>
 								<h4 class="itemName">
                     <!--<a onclick="" href="{{post.url}}" target="_blank" ng-click=updatePostClick(post) >-->
-					<a onclick="" href="" target="" ng-click=updatePostClick(post) >
+					<a onclick="" href="qicai.html?id={{post.objectId}}" target="_blank" ng-click=updatePostClick(post) >
 
                         {{post.brand}}                      
 
-                        <span class="red">{{post.name}} </span>
-                        {{   post.type}}
+                        <span class="red">{{post.name}}   </span>
+                        {{post.type}}
                     </a></h4>
 				<div class="clear"></div>
 			</div>
@@ -197,7 +197,7 @@
 				<div class="lrBot">
 										<div class="botPart" id="buybutton" >
                         						<div class="buy" style="z-index: 2;" >
-                                                            <a href="" ng-click=updatePostClick(post) onclick="">看看参数<i>&gt;</i></a>
+                                                            <a target="_blank"  href="qicai.html?id={{post.objectId}}" ng-click=updatePostClick(post) onclick="">看看参数<i>&gt;</i></a>
                                                                                 </div>
                                                                                 <a href="" class="mall" ng-click=brandClick(post.brand)>{{post.brand}}</a>
                                                                                 <a href="" class="mall" ng-click=typeClick(post.type)>{{post.type}}</a>
