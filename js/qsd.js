@@ -1397,11 +1397,20 @@
 	  	var Post = AV.Object.extend("Post");
 	  	var query = new AV.Query(Post);
 		var ss= new Array(); //定义一数组 
-		var spattern = post.brand + "&&";
+		var spattern = post.brand + ".*(";
 		ss=post.name.split(" "); //字符分割
+		var added=0;
 		for (i=0;i<ss.length ;i++ ) {
-			spattern+="|(?i)"+ss[i];
+			if (ss[i].length > 2) {
+				if (added == 0) {
+					added=1;
+					spattern+="(?i)"+ss[i];
+				} else {
+					spattern+="|(?i)"+ss[i];
+				}
+			}
 		}
+		spattern+=")";
 		query.matches("title", spattern);
 	  	query.descending("click");
 	  	query.limit(6);
