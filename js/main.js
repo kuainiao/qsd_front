@@ -1037,257 +1037,478 @@ function showMore(e, c, b) {
         });
     }
 }
+function picScroll(b) {
+	$(b).each(function() {
+		var e = $(this).find(".smallImgList li").length;
+		var k = $(this).find(".smallImgList li").outerWidth();
+		var m = e * k;
+		var f = 0;
+		var c;
+		var o = 7;
+		var h = $(this).find(".smallImgList li").eq(0).find("a").attr("rel");
+		var l = "<img src=" + h + '  alt="" />';
+		$(this).find(".aimgcon").html(l);
+		$(this).find(".smallImgList").css("width", m + "px");
+		$(this).find(".smallImgList li").each(function(j) {
+			$(this).click(function() {
+				clearInterval(c);
+				$(this).siblings("li").removeClass("thisimg").end().addClass("thisimg");
+				f = j;
+				var r = $(this).find("a").attr("rel");
+				var q = "<img src=" + r + '  alt="" />';
+				var s = '<span class="imgLoading"><img src="img/loading.gif" alt="图片加载中" title="图片加载中" /></span>';
+				var p = $(this).parents(b);
+				p.find(".aimgcon").html(q).fadeIn("slow");
+				p.find(".imgLoading").remove();
+				p.find(".imgContent").append(s);
+				p.find(".aimgcon img").load(function() {
+					p.find(".imgLoading").remove();
+					p.find(".aimgcon img").fadeIn("slow");
+				});
+				return false;
+			});
+		});
+		$(this).find(".img-next").click(function() {
+			clearInterval(c);
+			if (!$(this).find(".smallImgList").is(":animated")) {
+				f++;
+				f = f % e;
+				var q = $(this).parents(b).find(".smallImgList li");
+				var r = q.eq(f).find("a").attr("rel");
+				q.removeClass();
+				q.eq(f).addClass("thisimg");
+				var p = "<img src=" + r + '  alt="" />';
+				var s = '<span class="imgLoading"><img src="img/loading.gif" alt="图片加载中" title="图片加载中" /></span>';
+				var j = $(this).parents(b);
+				j.find(".aimgcon").html(p).fadeIn("slow");
+				j.find(".imgLoading").remove();
+				j.find(".imgContent").append(s);
+				j.find(".aimgcon img").load(function() {
+					j.find(".imgLoading").remove();
+					j.find(".aimgcon img").fadeIn("slow");
+				});
+			}
+			return false;
+		});
+		$(this).find(".img-prev").click(function() {
+			clearInterval(c);
+			if (!$(this).find(".smallImgList").is(":animated")) {
+				f--;
+				f = f % e;
+				var q = $(this).parents(b).find(".smallImgList li");
+				var r = q.eq(f).find("a").attr("rel");
+				q.removeClass();
+				q.eq(f).addClass("thisimg");
+				var p = "<img src=" + r + '  alt="" />';
+				var s = '<span class="imgLoading"><img src="img/loading.gif" alt="图片加载中" title="图片加载中" /></span>';
+				var j = $(this).parents(b);
+				j.find(".aimgcon").html(p).fadeIn("slow");
+				j.find(".imgLoading").remove();
+				j.find(".imgContent").append(s);
+				j.find(".aimgcon img").load(function() {
+					j.find(".imgLoading").remove();
+					j.find(".aimgcon img").fadeIn("slow");
+				});
+			}
+			return false;
+		});
+		if ($(this).find(".smallImgTab").length) {
+			if (e > o) {
+				$(this).find(".prevPic").show();
+				$(this).find(".nextPic").show();
+			}
+			var g = Math.ceil(e / o),
+				d = 0;
+			$(this).find(".nextPic").click(function() {
+				d++;
+				d = d % g;
+				var j = $(this).parent(".smallImgTab"),
+					p = j.find(".smallImgList");
+				if (d < g) {
+					p.animate({
+						left: -k * o * d
+					});
+				} else {
+					if (d == g) {
+						p.animate({
+							left: 0
+						});
+					}
+				}
+			});
+			$(this).find(".prevPic").click(function() {
+				d--;
+				d = d % g;
+				var j = $(this).parent(".smallImgTab"),
+					p = j.find(".smallImgList");
+				if (d > -g && d < 0) {
+					p.animate({
+						left: k * o * (-(g + d))
+					});
+				} else {
+					if (d == 0) {
+						p.animate({
+							left: 0
+						});
+					}
+				}
+			});
+		}
+	});
+}
 $(function() {
-    showMore("#baoliao_show", "#baoliao_info", 100);
-    $(window).load(function() {
-        anchorJump(".anchor_list");
-        anchorJump(".list_catalogue");
-    });
-    anchorClick(".anchor_list");
-    foundList(".news_content>h2", ".list_catalogue", ".list_catalogue dd h2 a", ".list_catalogue dd h2", ".list_catalogue dd");
-    anchorClick(".list_catalogue");
-    anchorClick(".xiTop");
-    if ($(".slider").length > 0) {
-        $(".banner_page").slick({dots: true,infinite: true,autoplay: true,draggable: false,pauseOnHover: true,autoplaySpeed: 10000,speed: 400,slidesToShow: 4,slidesToScroll: 4});
-        $(".banner_nopage").slick({dots: false,infinite: true,autoplay: true,draggable: false,pauseOnHover: true,autoplaySpeed: 10000,speed: 400,slidesToShow: 4,slidesToScroll: 4});
-        $(".single-item").slick({dots: true,infinite: true,autoplay: true,autoplaySpeed: 5000,speed: 400,slidesToShow: 1,slidesToScroll: 1});
-        $(".AddSlider").slick({dots: true,infinite: true,autoplay: true,autoplaySpeed: 5000,speed: 400,slidesToShow: 1,draggable: false,pauseOnHover: true,slidesToScroll: 1});
-    }
-    $("#quickComment").autoTextarea({maxHeight: 200});
-    voteTopic("#topicOnExp li", 3, "icon-rightframe", "#voteForm", "#voteBtn");
-    voteTopic("#topicOnExpLeft li", 3, "icon-rightframe", "#topic_vote_form", "#topic_vote_btn");
-    voteTopic(".inner_per_item span", 2, "icon-loginkuangright", ".bl_white_bg", "");
-    $(".bl_other_link").each(function() {
-        $(this).focus(function() {
-            var EPl = $(this).parent();
-            var length = $(this).parents(".bl_white_bg").find(".icon-loginkuangright").length;
-            if (length < 2) {
-                EPl.find("i").addClass("icon-loginkuangright");
-                EPl.find(".checkbox_hide").attr("checked", "true");
-            }
-            var ishave = $(this).parent().siblings().find(".icon-loginkuangright").length;
-            if (length == 1 && ishave == 1) {
-                $(this).parents(".bl_white_bg").find("i").not(".icon-loginkuangright").hide();
-            }
-        });
-    });
-    login();
-    register();
-    tab(".tab_li", ".tab_info", "current_item", "hover");
-    tab(".tab_set_li", ".tab_set_info", "current_item", "hover");
-    tab(".tab_faxian_li", ".tab_info_con", "current_item", "hover");
-    tab(".mult-nav span", ".mult-nav-part", "mult-nav-hover", "hover");
-    more_link(".buy");
-    indexTagChange();
-    listIntoGraphic(".rightHotExp");
-    listIntoGraphic(".rightHotNews");
-    listIntoGraphic(".hotOverseaNews");
-    showHide(".moreNav", "moreNavHover", ".more_moreNav");
-    showHide(".submission", "submissionHover", ".more_submission");
-    showHide(".login_Info", "login_InfoHover", ".more_login_Info");
-    showHide(".share_box", "", ".more_share");
-    showHide(".erweimaWrap", "", ".erweimaContent");
-    showHideClick(".span_checkbox", ".bl_switch");
-    zhankaiCon(".ninePicBox li a img", ".tabCon");
-    placehold(".input_style");
-    placehold(".inputBox");
-    placehold(".bl_other_link");
-    $("#bl_select_cate").change(function() {
-        var optionVal = $("#bl_select_cate").find("option:selected").val();
-        if (optionVal == "1") {
-            $(".bl_select_switch").css("display", "none");
-            $(".bl_input_switch").css("display", "block");
-            $(".bl_div_switch").css("display", "block");
-            $("#span_price").css("display", "block");
-        } else {
-            if (optionVal == "0") {
-                $(".bl_select_switch").css("display", "block");
-                $(".bl_input_switch").css("display", "none");
-                $(".bl_div_switch").css("display", "none");
-                $("#span_price").css("display", "none");
-            }
-        }
-    });
-    openClose("a.more", "a.pickup", "mallNav");
-    $(".button_add").bind("click", articleLinkAdd);
-    $(".button_reduce").click(function() {
-        $(this).parent().prevAll().addClass("moreitemlink");
-        $(this).parent().next().removeClass("moreitemlink");
-        $(this).parent().remove();
-        var link_length = $(".good_link").length;
-        if (link_length < 3) {
-            $(".good_link").find(".button_add").removeClass("disabled");
-        }
-    });
-    popUp("#navBar_login", "#pop-login", "");
-    popUp("#user_info_tosign", "#pop-login", "");
-    popUp("#sign_login a", "#pop-login", "");
-    popUp(".upload_content img", ".large_img", "");
-    login_reg_input(".form-input");
-    slidingFunction();
-    $(".goTotop").click(function() {
-        $("html, body").animate({scrollTop: 0}, 150);
-    });
-    if ($("#channel").val() == "qingdan") {
-        fixed_right(1);
-    } else {
-        var screenHeight = window.screen.height;
-        if (screenHeight < 800) {
-            fixed_right(1);
-        } else {
-            fixed_right(ad_scroll);
-        }
-    }
-    fixFooterPosition("#footer_fixed");
-    $(window).scroll(function() {
-        slidingFunction();
-    });
-    if ($("#noListLoad").length == 0) {
-        scrollBind();
-    }
-    $(window).resize(function() {
-        fixFooterPosition("#footer_fixed");
-        slidingFunction();
-        if ($("#channel").val() == "qingdan") {
-            fixed_right(1);
-        } else {
-            var screenHeight = window.screen.height;
-            if (screenHeight < 800) {
-                fixed_right(1);
-            } else {
-                fixed_right(ad_scroll);
-            }
-        }
-    });
-    imgResizeFit();
-    set_collect_current();
-    set_loverating_current();
-    $("#quickComment").autoTextarea({maxHeight: 200});
-    $("#voteBtn").click(function() {
-        ga("send", "event", "经验盒子", "详情_系列_话题投票", "投票");
-        $.ajax({url: "/add_vote",type: "post",data: $("#voteForm").serialize(),dataType: "json",success: function(data) {
-            var d = data;
-            if (d.error_code == 0) {
-                $("#vote_part").html(d.back_view);
-                $("#vote_count").html(d.vote_count);
-                $(".voteAnimate").each(function() {
-                    var tmp_arr = $(this).attr("id").split("_");
-                    var vid = tmp_arr[1];
-                    if ($.inArray(vid, d.vote_items) != -1) {
-                        $(this).fadeIn().animate({top: "-5px"}, "normal").fadeOut(300);
-                    }
-                });
-                $(".progressing").each(function() {
-                    $(this).data("origWidth", $(this).width()).width(0).animate({width: $(this).data("origWidth")}, 1200);
-                });
-            } else {
-                if (d.back_view) {
-                    $("#vote_part").html(d.back_view);
-                    $(".progressing").each(function() {
-                        $(this).data("origWidth", $(this).width()).width(0).animate({width: $(this).data("origWidth")}, 1200);
-                    });
-                }
-                alert(d.error_msg);
-                return;
-            }
-        }});
-    });
-    $("#topic_vote_btn").click(function() {
-        ga("send", "event", "经验盒子", "列表_话题_投票按钮", "");
-        $.ajax({url: "/add_vote",type: "post",data: $("#topic_vote_form").serialize(),dataType: "json",success: function(data) {
-            var d = data;
-            $(".listItem .i_checkbox").hide();
-            $("#topic_vote_btn").hide();
-            if (d.error_code == 0) {
-                $("#vote_part").html(d.back_view);
-                $("#vote_count").html(d.vote_count);
-                $("#topic_vote_btn").hide();
-                $("#vote_comment").html("投票成功！");
-                $("#topic_vote_count").html("&nbsp;" + d.vote_count + "&nbsp;");
-                $(".voteAnimate").each(function() {
-                    var tmp_arr = $(this).attr("id").split("_");
-                    var vid = tmp_arr[1];
-                    if ($.inArray(vid, d.vote_items) != -1) {
-                        $(this).fadeIn().animate({top: "-5px"}, "normal").fadeOut(300);
-                    }
-                });
-                $(".progressing").each(function() {
-                    $(this).data("origWidth", $(this).width()).width(0).animate({width: $(this).data("origWidth")}, 1200);
-                });
-            } else {
-                if (d.back_view) {
-                    $("#vote_part").html(d.back_view);
-                    $(".progressing").each(function() {
-                        $(this).data("origWidth", $(this).width()).width(0).animate({width: $(this).data("origWidth")}, 1200);
-                    });
-                }
-                $("#vote_comment").hide();
-                alert(d.error_msg);
-                return;
-            }
-        }});
-    });
-    $("#want_btn").click(function() {
-        if ($.trim($("#want_txt").val()) != "" && $.trim($("#want_txt").val()) != "提交您想看到的其他经验吧~") {
-            $.ajax({url: "/add_suggest",type: "post",data: $("#want_vote").serialize(),dataType: "json",success: function(data) {
-                var d = eval(data);
-                if (d.error_code == 0 || d.error_code == 1) {
-                    $("#want_txt").val("");
-                    $("#want_btn").removeClass(".btn_voteCurrent").attr("disabled", true);
-                    $("body").append('<div class="pop pop_no_title" id="pop-vote"><i class="pop-close icon-cross-lighter"><!--[if lt IE 8]>x<![endif]--></i><div class="pop-content oneLine"><i class="icon-loginright"><!--[if lt IE 8]>√<![endif]--></i><p class="pop_info"></p></div></div>');
-                    popUp("", "#pop-vote", d.error_msg);
-                }
-                return;
-            }});
-        } else {
-            return;
-        }
-    });
-    $("#want_txt").keydown(function() {
-        if ($("#want_txt").val().length >= 4 && $.trim($("#want_txt").val()) != "提交您想看到的其他经验吧~") {
-            $("#want_btn").addClass("btn_voteCurrent").attr("disabled", false);
-        } else {
-            $("#want_btn").removeClass("btn_voteCurrent").attr("disabled", true);
-        }
-    });
-    var vote_period = getCookie("vote_period");
-    if (vote_period != null && ($("#cur_vote").val() == vote_period || $("#topic_cur_vote").val() == vote_period)) {
-        $("#vote_yet").hide();
-        $("#voted").show();
-        $(".listItem .i_checkbox").hide();
-        $("#topic_vote_btn").hide();
-        $("#vote_comment").hide();
-        $(".voteProgressing").each(function() {
-            $(this).data("origWidth", $(this).width()).width(0).animate({width: $(this).data("origWidth")}, 1200);
-        });
-    }
-    if (getCookie("post_permission") && typeof (getCookie("post_permission")) != undefined) {
-        if ($(".list").length > 0) {
-            listAddEditStart();
-        }
-        if ($("#isDetail").length > 0) {
-            detailAddEditStart();
-        }
-        if ($("#comments .tab_info .comment_listBox").length > 0) {
-            $(".comment_listBox li.comment_list, .comment_listBox li.comment_list blockquote").each(function() {
-                var commentID = $(this).attr("blockquote_cid");
-                var userID = $(this).find(".user_name:first").attr("uqiongsandaiid");
-                if ($(this).hasClass("comment_list")) {
-                    var commentIdArray = $(this).attr("id").split("_");
-                    commentID = commentIdArray[commentIdArray.length - 1];
-                }
-                var blackListDom = '<a href="http://bgm.qiongsandai.com/blackroom/blackroom/user_add?user_qiongsandai_id=' + userID + '" title="关小黑屋">关小黑屋</a>';
-                if (userID == 0 || userID == undefined) {
-                    blackListDom = "";
-                }
-                var deleteDom = '<a href="javascript:void(0);" onclick="commentDelete(' + commentID + ',1)" title="删除">删除</a>';
-                var editDom = "";
-                var controls = blackListDom + deleteDom + editDom;
-                $(this).find(".dingNum:last").before(controls);
-            });
-        }
-    }
-    scored("#details-zan", "current");
+	picScroll(".banner_scroll");
+	showMore("#baoliao_show", "#baoliao_info", 100);
+	$(window).load(function() {
+		anchorJump(".anchor_list");
+		anchorJump(".list_catalogue");
+	});
+	anchorClick(".anchor_list");
+	foundList(".news_content>h2", ".list_catalogue", ".list_catalogue dd h2 a", ".list_catalogue dd h2", ".list_catalogue dd");
+	anchorClick(".list_catalogue");
+	anchorClick(".xiTop");
+	if ($(".slider").length > 0) {
+		$(".banner_page").slick({
+			dots: true,
+			infinite: true,
+			autoplay: true,
+			draggable: false,
+			pauseOnHover: true,
+			autoplaySpeed: 10000,
+			speed: 400,
+			slidesToShow: 4,
+			slidesToScroll: 4
+		});
+		$(".banner_nopage").slick({
+			dots: false,
+			infinite: true,
+			autoplay: true,
+			draggable: false,
+			pauseOnHover: true,
+			autoplaySpeed: 10000,
+			speed: 400,
+			slidesToShow: 4,
+			slidesToScroll: 4
+		});
+		$(".single-item").slick({
+			dots: true,
+			infinite: true,
+			autoplay: true,
+			autoplaySpeed: 5000,
+			speed: 400,
+			slidesToShow: 1,
+			slidesToScroll: 1
+		});
+		$(".AddSlider").slick({
+			dots: true,
+			infinite: true,
+			autoplay: true,
+			autoplaySpeed: 5000,
+			speed: 400,
+			slidesToShow: 1,
+			draggable: false,
+			pauseOnHover: true,
+			slidesToScroll: 1
+		});
+	}
+	$("#quickComment").autoTextarea({
+		maxHeight: 200
+	});
+	if (zhiyou_open) {
+		zhiyou_relate.request_zhiyou_info();
+	} else {
+		requestUserInfo();
+	}
+	voteTopic("#topicOnExp li", 3, "icon-rightframe", "#voteForm", "#voteBtn");
+	voteTopic("#topicOnExpLeft li", 3, "icon-rightframe", "#topic_vote_form", "#topic_vote_btn");
+	voteTopic(".inner_per_item span", 2, "icon-loginkuangright", ".bl_white_bg", "");
+	$(".bl_other_link").each(function() {
+		$(this).focus(function() {
+			var EPl = $(this).parent();
+			var length = $(this).parents(".bl_white_bg").find(".icon-loginkuangright").length;
+			if (length < 2) {
+				EPl.find("i").addClass("icon-loginkuangright");
+				EPl.find(".checkbox_hide").attr("checked", "true");
+			}
+			var ishave = $(this).parent().siblings().find(".icon-loginkuangright").length;
+			if (length == 1 && ishave == 1) {
+				$(this).parents(".bl_white_bg").find("i").not(".icon-loginkuangright").hide();
+			}
+		});
+	});
+	if (zhiyou_open) {
+		var config = {
+			"redirect_url": encodeURIComponent(window.location.href)
+		};
+		zhiyou_relate.popup_login_init(config);
+	} else {
+		login();
+		register();
+	}
+	tab(".tab_li", ".tab_info", "current_item", "hover");
+	tab(".tab_set_li", ".tab_set_info", "current_item", "hover");
+	tab(".tab_faxian_li", ".tab_info_con", "current_item", "hover");
+	tab(".mult-nav span", ".mult-nav-part", "mult-nav-hover", "hover");
+	more_link(".buy");
+	indexTagChange();
+	listIntoGraphic(".rightHotExp");
+	listIntoGraphic(".rightHotNews");
+	listIntoGraphic(".hotOverseaNews");
+	showHide(".moreNav", "moreNavHover", ".more_moreNav");
+	showHide(".submission", "submissionHover", ".more_submission");
+	showHide(".login_Info", "login_InfoHover", ".more_login_Info");
+	showHide(".share_box", "", ".more_share");
+	showHide(".erweimaWrap", "", ".erweimaContent");
+	showHide(".mobile-go-buy", "", ".more-app-go-buy");
+	showHide(".weixin-go-buy", "", ".more-app-go-buy");
+	showHide("#show-order", "", ".more-show-order");
+	showHideClick(".span_checkbox", ".bl_switch");
+	zhankaiCon(".ninePicBox li a img", ".tabCon");
+	placehold(".input_style");
+	placehold(".inputBox");
+	placehold(".bl_other_link");
+	$("#bl_select_cate").change(function() {
+		var optionVal = $("#bl_select_cate").find("option:selected").val();
+		if (optionVal == "1") {
+			$(".bl_select_switch").css("display", "none");
+			$(".bl_input_switch").css("display", "block");
+			$(".bl_div_switch").css("display", "block");
+			$("#span_price").css("display", "block");
+		} else {
+			if (optionVal == "0") {
+				$(".bl_select_switch").css("display", "block");
+				$(".bl_input_switch").css("display", "none");
+				$(".bl_div_switch").css("display", "none");
+				$("#span_price").css("display", "none");
+			}
+		}
+	});
+	openClose("a.more", "a.pickup", "mallNav");
+	$(".button_add").bind("click", articleLinkAdd);
+	$(".button_reduce").click(function() {
+		$(this).parent().prevAll().addClass("moreitemlink");
+		$(this).parent().next().removeClass("moreitemlink");
+		$(this).parent().remove();
+		var link_length = $(".good_link").length;
+		if (link_length < 3) {
+			$(".good_link").find(".button_add").removeClass("disabled");
+		}
+	});
+	if (zhiyou_open) {
+		$("#n
+avBar_login, #user_info_tosign, #sign_login a").addClass("zhiyou_login");
+	} else {
+		popUp("#navBar_login", "#pop-login", "");
+		popUp("#user_info_tosign", "#pop-login", "");
+		popUp("#sign_login a", "#pop-login", "");
+	}
+	popUp(".upload_content img", ".large_img", "");
+	login_reg_input(".form-input");
+	slidingFunction();
+	$(".goTotop").click(function() {
+		$("html, body").animate({
+			scrollTop: 0
+		}, 150);
+	});
+	if ($("#channel").val() == "qingdan") {
+		fixed_right(1);
+	} else {
+		var screenHeight = window.screen.height;
+		if (screenHeight < 800) {
+			fixed_right(1);
+		} else {
+			fixed_right(ad_scroll);
+		}
+	}
+	fixFooterPosition("#footer_fixed");
+	$(window).scroll(function() {
+		slidingFunction();
+	});
+	if ($("#noListLoad").length == 0) {
+		scrollBind();
+	}
+	$(window).resize(function() {
+		fixFooterPosition("#footer_fixed");
+		slidingFunction();
+		if ($("#channel").val() == "qingdan") {
+			fixed_right(1);
+		} else {
+			var screenHeight = window.screen.height;
+			if (screenHeight < 800) {
+				fixed_right(1);
+			} else {
+				fixed_right(ad_scroll);
+			}
+		}
+	});
+	imgResizeFit();
+	set_collect_current();
+	set_loverating_current();
+	$("#quickComment").autoTextarea({
+		maxHeight: 200
+	});
+	$("#voteBtn").click(function() {
+		ga("send", "event", "经验盒子", "详情_系列_话题投票", "投票");
+		$.ajax({
+			url: "/add_vote",
+			type: "post",
+			data: $("#voteForm").serialize(),
+			dataType: "json",
+			success: function(data) {
+				var d = data;
+				if (d.error_code == 0) {
+					$("#vote_part").html(d.back_view);
+					$("#vote_count").html(d.vote_count);
+					$(".voteAnimate").each(function() {
+						var tmp_arr = $(this).attr("id").split("_");
+						var vid = tmp_arr[1];
+						if ($.inArray(vid, d.vote_items) != -1) {
+							$(this).fadeIn().animate({
+								top: "-5px"
+							}, "normal").fadeOut(300);
+						}
+					});
+					$(".progressing").each(function() {
+						$(this).data("origWidth", $(this).width()).width(0).animate({
+							width: $(this).data("origWidth")
+						}, 1200);
+					});
+				} else {
+					if (d.back_view) {
+						$("#vote_part").html(d.back_view);
+						$(".progressing").each(function() {
+							$(this).data("origWidth", $(this).width()).width(0).animate({
+								width: $(this).data("origWidth")
+							}, 1200);
+						});
+					}
+					alert(d.error_msg);
+					return;
+				}
+			}
+		});
+	});
+	$("#topic_vote_btn").click(function() {
+		ga("send", "event", "经验盒子", "列表_话题_投票按钮", "");
+		$.ajax({
+			url: "/add_vote",
+			type: "post",
+			data: $("#topic_vote_form").serialize(),
+			dataType: "json",
+			success: function(data) {
+				var d = data;
+				$(".listItem .i_checkbox").hide();
+				$("#topic_vote_btn").hide();
+				if (d.error_code == 0) {
+					$("#vote_part").html(d.back_view);
+					$("#vote_count").html(d.vote_count);
+					$("#topic_vote_btn").hide();
+					$("#vote_comment").html("投票成功！");
+					$("#topic_vote_count").html("&nbsp;" + d.vote_count + "&nbsp;");
+					$(".voteAnimate").each(function() {
+						var tmp_arr = $(this).attr("id").split("_");
+						var vid = tmp_arr[1];
+						if ($.inArray(vid, d.vote_items) != -1) {
+							$(this).fadeIn().animate({
+								top: "-5px"
+							}, "normal").fadeOut(300);
+						}
+					});
+					$(".progressing").each(function() {
+						$(this).data("origWidth", $(this).width()).width(0).animate({
+							width: $(this).data("origWidth")
+						}, 1200);
+					});
+				} else {
+					if (d.back_view) {
+						$("#vote_part").html(d.back_view);
+						$(".progressing").each(function() {
+							$(this).data("origWidth", $(this).width()).width(0).animate({
+								width: $(this).data("origWidth")
+							}, 1200);
+						});
+					}
+					$("#vote_comment").hide();
+					alert(d.error_msg);
+					return;
+				}
+			}
+		});
+	});
+	$("#want_btn").click(function() {
+		if ($.trim($("#want_txt").val()) != "" && $.trim($("#want_txt").val()) != "提交您想看到的其他经验吧~") {
+			$.ajax({
+				url: "/add_suggest",
+				type: "post",
+				data: $("#want_vote").serialize(),
+				dataType: "json",
+				success: function(data) {
+					var d = eval(data);
+					if (d.error_code == 0 || d.error_code == 1) {
+						$("#want_txt").val("");
+						$("#want_btn").removeClass(".btn_voteCurrent").attr("disabled", true);
+						$("body").append('<div class="pop pop_no_title" id="pop-vote"><i class="pop-close icon-cross-lighter"><!--[if lt IE 8]>x<![endif]--></i><div class="pop-content oneLine"><i class="icon-loginright"><!--[if lt IE 8]>√<![endif]--></i><p class="pop_info"></p></div></div>');
+						popUp("", "#pop-vote", d.error_msg);
+					}
+					return;
+				}
+			});
+		} else {
+			return;
+		}
+	});
+	$("#want_txt").keydown(function() {
+		if ($("#want_txt").val().length >= 4 && $.trim($("#want_txt").val()) != "提交您想看到的其他经验吧~") {
+			$("#want_btn").addClass("btn_voteCurrent").attr("disabled", false);
+		} else {
+			$("#want_btn").removeClass("btn_voteCurrent").attr("disabled", true);
+		}
+	});
+	var vote_period = getCookie("vote_period");
+	if (vote_period != null && ($("#cur_vote").val() == vote_period || $("#topic_cur_vote").val() == vote_period)) {
+		$("#vote_yet").hide();
+		$("#voted").show();
+		$(".listItem .i_checkbox").hide();
+		$("#topic_vote_btn").hide();
+		$("#vote_comment").hide();
+		$(".voteProgressing").each(function() {
+			$(this).data("origWidth", $(this).width()).width(0).animate({
+				width: $(this).data("origWidth")
+			}, 1200);
+		});
+	}
+	if (getCookie("post_permission") && typeof(getCookie("post_permission")) != undefined) {
+		if ($(".list").length > 0) {
+			listAddEditStart();
+		}
+		if ($("#isDetail").length > 0) {
+			detailAddEditStart();
+		}
+		if ($("#comments .tab_info .comment_listBox").length > 0) {
+			$(".comment_listBox li.comment_list, .comment_listBox li.comment_list blockquote").each(function() {
+				var commentID = $(this).attr("blockquote_cid");
+				var userID = $(this).find(".user_name:first").attr("usmzdmid");
+				if ($(this).hasClass("comment_list")) {
+					var commentIdArray = $(this).attr("id").split("_");
+					commentID = commentIdArray[commentIdArray.length - 1];
+				}
+				var mosaicDom = '<a href="javascript:void(0);" title="打码" onclick="mosaic_show_textarea(' + commentID + ')">打码</a>';
+				if (zhiyou_open) {
+					var blackListDom = '<a href="http://users.bgm.smzdm.com/blackroom/user_add?smzdm_id=' + userID + '" title="关小黑屋">关小黑屋</a>';
+				} else {
+					var blackListDom = '<a href="http://bgm.smzdm.com/blackroom/blackroom/user_add?user_smzdm_id=' + userID + '" title="关小黑屋">关小黑屋</a>';
+				}
+				if (userID == 0 || userID == undefined) {
+					blackListDom = "";
+				}
+				var deleteDom = '<a href="javascript:void(0);" onclick="commentDelete(' + commentID + ',1)" title="删除">删除</a>';
+				var editDom = "";
+				var controls = mosaicDom + blackListDom + deleteDom + editDom;
+				$(this).find(".dingNum:last").before(controls);
+			});
+		}
+	}
+	scored("#details-zan", "current");
 });
 function oncheckpage(b, c, f) {
     var e = $(f).parent().parent().find(".jumpToPage #input_num").val();
